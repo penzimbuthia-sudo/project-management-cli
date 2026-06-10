@@ -27,11 +27,13 @@ The project demonstrates Object-Oriented Programming (OOP), file handling, comma
 
 * Add a project
 * View all projects
+* Search projects assigned to a specific user
 
 ### Task Management
 
 * Add a task
-* Mark a task as completed
+* View all tasks
+* Mark tasks as completed
 
 ### Data Persistence
 
@@ -125,41 +127,31 @@ pipenv run python main.py
 ## Available Commands
 
 ### Add User
-
 pipenv run python main.py add-user --name "Alex" --email "alex@gmail.com"
 
 ### List Users
-
 pipenv run python main.py list-users
 
 ### Add Project
-
 pipenv run python main.py add-project --user "Alex" --title "CLI Tool" --description "Python Project" --due-date "2026-07-01"
 
 ### List Projects
-
 pipenv run python main.py list-projects
 
 ### View Projects for a Specific User
-
 pipenv run python main.py user-projects --user "Alex"
 
 ### Add Task
-
 pipenv run python main.py add-task --project "CLI Tool" --title "Create User Class"
 
 ### List Tasks
 pipenv run python main.py list-tasks
-
 ### Complete Task
-
 pipenv run python main.py complete-task --title "Create User Class"
 
 
 ## Running Tests
-
 Run all tests using:
-
 pipenv run pytest
 
 
