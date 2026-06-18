@@ -57,6 +57,29 @@ def update_user(args):
 
     print("[green]User updated successfully[/green]")
 
+def delete_user(args):
+
+    users = load_data(USERS_FILE)
+
+    new_users = []
+
+    found = False
+
+    for user in users:
+
+        if user["email"] == args.email:
+            found = True
+        else:
+            new_users.append(user)
+
+    if not found:
+        print("[red]User not found[/red]")
+        return
+
+    save_data(USERS_FILE, new_users)
+
+    print("[green]User deleted successfully[/green]")
+
 def add_project(args):
 
     projects = load_data(PROJECTS_FILE)
@@ -155,6 +178,12 @@ update_user_parser.add_argument("--email", required=True)
 update_user_parser.add_argument("--new-name", required=True)
 
 update_user_parser.set_defaults(func=update_user)
+
+delete_user_parser = subparsers.add_parser("delete-user")
+delete_user_parser.add_argument("--email", required=True)
+
+delete_user_parser.set_defaults(func=delete_user)
+
 project_parser = subparsers.add_parser("add-project")
 
 project_parser.add_argument("--user", required=True)
