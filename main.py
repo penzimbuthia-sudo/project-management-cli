@@ -108,6 +108,30 @@ def list_projects(args):
     for project in projects:
         print(project) 
 
+def update_project(args):
+
+    projects = load_data(PROJECTS_FILE)
+
+    found = False
+
+    for project in projects:
+
+        if project["title"] == args.title:
+
+            project["description"] = args.description
+            project["due_date"] = args.due_date
+
+            found = True
+            break
+
+    if not found:
+        print("[red]Project not found[/red]")
+        return
+
+    save_data(PROJECTS_FILE, projects)
+
+    print("[green]Project updated successfully[/green]")
+
 def add_task(args):
 
     tasks = load_data(TASKS_FILE)
@@ -196,6 +220,14 @@ project_parser.set_defaults(func=add_project)
 list_projects_parser = subparsers.add_parser("list-projects")
 
 list_projects_parser.set_defaults(func=list_projects)
+
+update_project_parser = subparsers.add_parser("update-project")
+
+update_project_parser.add_argument("--title", required=True)
+update_project_parser.add_argument("--description", required=True)
+update_project_parser.add_argument("--due-date", required=True)
+
+update_project_parser.set_defaults(func=update_project)
 
 task_parser = subparsers.add_parser("add-task")
 
