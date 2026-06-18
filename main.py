@@ -2,6 +2,7 @@ import argparse
 from rich import print
 
 from utils.file_handler import load_data, save_data
+from argparse import Namespace
 
 USERS_FILE = "data/users.json"
 PROJECTS_FILE = "data/projects.json"
@@ -230,6 +231,173 @@ def user_projects(args):
         print("[red]No projects found[/red]")
 
 
+def menu():
+  while True:
+
+    print("\n===== Project Management System =====")
+
+    print("\nUSER MANAGEMENT")
+    print("1. Add User")
+    print("2. List Users")
+    print("3. Update User")
+    print("4. Delete User")
+
+    print("\nPROJECT MANAGEMENT")
+    print("5. Add Project")
+    print("6. List Projects")
+    print("7. Update Project")
+    print("8. Delete Project")
+    print("9. View User Projects")
+
+    print("\nTASK MANAGEMENT")
+    print("10. Add Task")
+    print("11. List Tasks")
+    print("12. Complete Task")
+    print("13. Delete Task")
+
+    print("\n14. Exit")
+
+    choice = input("\nChoose an option: ")
+
+    if choice == "1":
+
+        name = input("Enter name: ")
+        email = input("Enter email: ")
+
+        args = Namespace(
+            name=name,
+            email=email
+        )
+
+        add_user(args)
+
+    elif choice == "2":
+
+        list_users(None)
+
+    elif choice == "3":
+
+        email = input("Enter user email: ")
+        new_name = input("Enter new name: ")
+
+        args = Namespace(
+            email=email,
+            new_name=new_name
+        )
+
+        update_user(args)
+
+    elif choice == "4":
+
+        email = input("Enter user email: ")
+
+        args = Namespace(
+            email=email
+        )
+
+        delete_user(args)
+
+    elif choice == "5":
+
+        user = input("Enter user name: ")
+        title = input("Enter project title: ")
+        description = input("Enter description: ")
+        due_date = input("Enter due date (YYYY-MM-DD): ")
+
+        args = Namespace(
+            user=user,
+            title=title,
+            description=description,
+            due_date=due_date
+        )
+
+        add_project(args)
+
+    elif choice == "6":
+
+        list_projects(None)
+
+    elif choice == "7":
+
+        title = input("Enter project title: ")
+        description = input("Enter new description: ")
+        due_date = input("Enter new due date: ")
+
+        args = Namespace(
+            title=title,
+            description=description,
+            due_date=due_date
+        )
+
+        update_project(args)
+
+    elif choice == "8":
+
+        title = input("Enter project title: ")
+
+        args = Namespace(
+            title=title
+        )
+
+        delete_project(args)
+
+    elif choice == "9":
+
+        user = input("Enter user name: ")
+
+        args = Namespace(
+            user=user
+        )
+
+        user_projects(args)
+
+    elif choice == "10":
+
+        project = input("Enter project title: ")
+        title = input("Enter task title: ")
+
+        args = Namespace(
+            project=project,
+            title=title
+        )
+
+        add_task(args)
+
+    elif choice == "11":
+
+        list_tasks(None)
+
+    elif choice == "12":
+
+        title = input("Enter task title: ")
+
+        args = Namespace(
+            title=title
+        )
+
+        complete_task(args)
+
+    elif choice == "13":
+
+        title = input("Enter task title: ")
+
+        args = Namespace(
+            title=title
+        )
+
+        delete_task(args)
+
+    elif choice == "14":
+
+        print("Goodbye!")
+        break
+
+    else:
+
+        print("Invalid option. Please try again.")
+
+
+
 parser = argparse.ArgumentParser(description="Project Management CLI")
 
 subparsers = parser.add_subparsers()
@@ -306,9 +474,20 @@ user_projects_parser.add_argument("--user",required=True)
 user_projects_parser.set_defaults(
     func=user_projects
 )
-args = parser.parse_args()
 
-if hasattr(args, "func"):
-    args.func(args)
-else:
-    parser.print_help()
+if __name__ == "__main__":
+
+    import sys
+
+    if len(sys.argv) == 1:
+
+        menu()
+
+    else:
+
+        args = parser.parse_args()
+
+        if hasattr(args, "func"):
+            args.func(args)
+        else:
+            parser.print_help()
