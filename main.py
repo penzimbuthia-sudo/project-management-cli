@@ -34,6 +34,28 @@ def list_users(args):
     for user in users:
         print(user)
 
+def update_user(args):
+
+    users = load_data(USERS_FILE)
+
+    found = False
+
+    for user in users:
+
+        if user["email"] == args.email:
+
+            user["name"] = args.new_name
+
+            found = True
+            break
+
+    if not found:
+        print("[red]User not found[/red]")
+        return
+
+    save_data(USERS_FILE, users)
+
+    print("[green]User updated successfully[/green]")
 
 def add_project(args):
 
@@ -127,6 +149,12 @@ add_user_parser.set_defaults(func=add_user)
 list_user_parser = subparsers.add_parser("list-users")
 list_user_parser.set_defaults(func=list_users)
 
+update_user_parser = subparsers.add_parser("update-user")
+
+update_user_parser.add_argument("--email", required=True)
+update_user_parser.add_argument("--new-name", required=True)
+
+update_user_parser.set_defaults(func=update_user)
 project_parser = subparsers.add_parser("add-project")
 
 project_parser.add_argument("--user", required=True)
