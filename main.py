@@ -193,6 +193,29 @@ def list_tasks(args):
     for task in tasks:
         print(task)
 
+def delete_task(args):
+
+    tasks = load_data(TASKS_FILE)
+
+    new_tasks = []
+
+    found = False
+
+    for task in tasks:
+
+        if task["title"] == args.title:
+            found = True
+        else:
+            new_tasks.append(task)
+
+    if not found:
+        print("[red]Task not found[/red]")
+        return
+
+    save_data(TASKS_FILE, new_tasks)
+
+    print("[green]Task deleted successfully[/green]")
+
 def user_projects(args):
     projects = load_data(PROJECTS_FILE)
 
@@ -270,6 +293,11 @@ complete_parser.set_defaults(func=complete_task)
 
 list_tasks_parser = subparsers.add_parser("list-tasks")
 list_tasks_parser.set_defaults(func=list_tasks)
+
+delete_task_parser = subparsers.add_parser("delete-task")
+delete_task_parser.add_argument("--title", required=True)
+
+delete_task_parser.set_defaults(func=delete_task)
 
 user_projects_parser = subparsers.add_parser("user-projects")
 
